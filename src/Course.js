@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Accordion from 'react-bootstrap/Accordion';
+import Warning from './Warning';
 
 class Course extends React.Component {
   constructor(props) {
@@ -15,35 +16,69 @@ class Course extends React.Component {
   }
 
   render() {
-    return (
-      <Card style={{width: '33%', marginTop: '5px', marginBottom: '5px'}}>
-        <Card.Body>
-          <Card.Title>
-            <div style={{maxWidth: 250}}>
-              {this.props.data.name}
-            </div>
-            {this.getExpansionButton()}
-          </Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">{this.props.data.number} - {this.getCredits()}</Card.Subtitle>
-          {this.getDescription()}
-          <Button variant='dark' onClick={() => this.openModal()}>View sections</Button>
-        </Card.Body>
-        <Modal show={this.state.showModal} onHide={() => this.closeModal()} centered>
-          <Modal.Header closeButton>
-            <Modal.Title>{this.props.data.name}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {this.getSections()}
-          </Modal.Body>
-          <Modal.Footer>
-            {this.getCourseButton()}
-            <Button variant="secondary" onClick={() => this.closeModal()}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </Card>
-    )
+    if(this.props.cartMode === true){
+      return (
+        <Card style={{width: '33%', marginTop: '5px', marginBottom: '5px'}}>
+          <Card.Body>
+            <Card.Title>
+              <div style={{maxWidth: 250}}>
+                {this.props.data.name}
+              </div>
+              {this.getExpansionButton()}
+            </Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">{this.props.data.number} - {this.getCredits()}</Card.Subtitle>
+            {this.getDescription()}
+            <Warning data={this.props.data} compCourses={this.props.compCourses}/>
+            <Button variant='dark' onClick={() => this.openModal()}>View sections</Button>
+          </Card.Body>
+          <Modal show={this.state.showModal} onHide={() => this.closeModal()} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>{this.props.data.name}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {this.getSections()}
+            </Modal.Body>
+            <Modal.Footer>
+              {this.getCourseButton()}
+              <Button variant="secondary" onClick={() => this.closeModal()}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </Card>
+      )
+    } else{
+      return (
+        <Card style={{width: '33%', marginTop: '5px', marginBottom: '5px'}}>
+          <Card.Body>
+            <Card.Title>
+              <div style={{maxWidth: 250}}>
+                {this.props.data.name}
+              </div>
+              {this.getExpansionButton()}
+            </Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">{this.props.data.number} - {this.getCredits()}</Card.Subtitle>
+            {this.getDescription()}
+            <Button variant='dark' onClick={() => this.openModal()}>View sections</Button>
+          </Card.Body>
+          <Modal show={this.state.showModal} onHide={() => this.closeModal()} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>{this.props.data.name}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {this.getSections()}
+            </Modal.Body>
+            <Modal.Footer>
+              {this.getCourseButton()}
+              <Button variant="secondary" onClick={() => this.closeModal()}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </Card>
+      )
+    }
+    
   }
 
   getCourseButton() {
@@ -66,8 +101,7 @@ class Course extends React.Component {
 
   getSections() {
     let sections = [];
-
-
+    
     for (let i =0; i < this.props.data.sections.length; i++){
       sections.push (
           <Card key={i}>
