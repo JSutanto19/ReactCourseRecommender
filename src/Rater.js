@@ -26,11 +26,11 @@ class Rater extends React.Component{
                  <Form.Label style={{fontWeight: "bold", fontSize:"18px"}}>Rating: </Form.Label>
                  <Form.Control as="select" onChange={this.handleRatingChange}>
                     <option value="Not Rating">No Rating</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    <option value="1">1 - dissatisfied</option>
+                    <option value="2">2 - somewhat dissatisfied </option>
+                    <option value="3">3 - somewhat satisfied</option>
+                    <option value="4">4 - satisfied</option>
+                    <option value="5">5 - very satisfied </option>
                 </Form.Control>
             </Form.Group>
             

@@ -38,8 +38,9 @@ class Warning extends React.Component{
                }
                //if or is false break because their is an AND
                if(passOr === false){
-                   return(<Alert variant="danger"><p>Warning: Requisites are not met. Can't Enroll in course </p></Alert>)
-               } else{
+                //    return(<Alert variant="danger"><p>Warning: Requisites are not met. Can't Enroll in course because you need to take Course 1 and Course 2 first</p></Alert>)
+                return this.missingReqs(this.props.data.number);
+            } else{
                    //OR is true so reset passOr to false and check other OR
                    passOr = false;
                }
@@ -53,12 +54,13 @@ class Warning extends React.Component{
                 return(<Alert variant="success"><p>All requisites met</p></Alert>)
                }
            }
-           return(<Alert variant="danger"><p>Warning: Requisites are not met. Can't Enroll in course </p></Alert>)
-
+           return this.missingReqs(this.props.data.number);
         }
 
        }
     }
+
+    
 
     checkReq(courseNum){
        for(let i = 0; i < this.props.compCourses.length;++i){
@@ -67,6 +69,14 @@ class Warning extends React.Component{
            }
        }
        return false;
+    }
+
+    missingReqs(cNum){
+        if(cNum === "COMP SCI 537"){
+            return(<Alert variant="danger"><p>Warning: Requisites are not met. Can't Enroll in course because you need to take COMP SCI 354 first</p></Alert>)
+        } else if(cNum === "COMP SCI 354"){
+            return(<Alert variant="danger"><p>Warning: Requisites are not met. Can't Enroll in course because you need to take COMP SCI 252 first</p></Alert>)
+        }
     }
 
     render(){

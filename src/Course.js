@@ -6,21 +6,63 @@ import Modal from 'react-bootstrap/Modal';
 import Accordion from 'react-bootstrap/Accordion';
 import Warning from './Warning';
 
+
 class Course extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       expanded: false,
-      showModal: false
+      showModal: false,
+      showHelp: false,
+      showConfirm: false
     }
   }
+
+  closeHelp(){
+    this.setState({showHelp: false});
+  }
+  
+  showHelpModal(){
+    console.log("here");
+    this.setState({showHelp: true});
+  }
+
+  showConfirm(){
+    this.setState({showConfirm: true, showModal:false});
+    
+  }
+
+  closeConfirm(){
+    this.setState({showConfirm: false, showModal:true});
+  }
+
 
   render() {
     if(this.props.cartMode === true){
       return (
         <Card style={{width: '33%', marginTop: '5px', marginBottom: '5px'}}>
           <Card.Body>
-            <Card.Title>
+            <Button variant="info" onClick={()=>this.showHelpModal()}>Help</Button>
+            <Modal show={this.state.showHelp} onHide={() => this.closeHelp()}>
+                <Modal.Header closeButton>
+                  <Modal.Title id="contained-modal-title-vcenter">
+                  Help page
+                  </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <h4>How to Remove a Section or Subsection</h4>
+                  <ol>
+                    <li>Click View Sections</li>
+                    <li>Find the section you added to cart</li>
+                    <li>Click the Remove Section or Remove Subsection button to remove a section or subsection </li>
+                  </ol>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button onClick={() => this.closeHelp()}>Close</Button>
+                </Modal.Footer>
+              </Modal>
+
+            <Card.Title> 
               <div style={{maxWidth: 250}}>
                 {this.props.data.name}
               </div>
@@ -31,6 +73,7 @@ class Course extends React.Component {
             <Warning data={this.props.data} compCourses={this.props.compCourses}/>
             <Button variant='dark' onClick={() => this.openModal()}>View sections</Button>
           </Card.Body>
+
           <Modal show={this.state.showModal} onHide={() => this.closeModal()} centered>
             <Modal.Header closeButton>
               <Modal.Title>{this.props.data.name}</Modal.Title>
@@ -45,6 +88,21 @@ class Course extends React.Component {
               </Button>
             </Modal.Footer>
           </Modal>
+
+          {/* {<Modal show={this.state.showConfirm} onHide={() => this.closeConfirm()}>
+          <Modal.Header closeButton>
+            </Modal.Header>
+            <Modal.Body>Are you sure you want to delete this Section or Subsection?</Modal.Body>
+            <Modal.Footer>
+              <Button variant="danger" onClick={()=>this.confirmRemove()}>
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={() => this.closeConfirm}>
+                Remove Section 
+              </Button>
+            </Modal.Footer>
+          </Modal>} */}
+
         </Card>
       )
     } else{
@@ -149,7 +207,7 @@ class Course extends React.Component {
       }
     );
   }
-
+  
   removeCourse() {
     this.props.removeCartCourse (
       {
@@ -178,6 +236,19 @@ class Course extends React.Component {
     );
   }
 
+  //   closeConfirm(){
+  //     this.setState({confirmSectionModal: false });
+  //   }
+    
+  //   showConfirm(){
+  //     this.setState({confirmSectionModal: !this.state.confirmModal});
+  //   }
+
+  confirmRemove(e,section){
+    this.showConfirm();
+  
+  }
+
   addSubsection(e, section, subsection) {
     e.stopPropagation();
     this.props.addCartCourse (
@@ -200,6 +271,31 @@ class Course extends React.Component {
     );
 
   }
+  // confirmShowSubsectionModal(){
+  //   this.setState({confirmRemoveSubsection: !this.state.confirmSubsectionModal});
+  // }
+  
+  // closeSubsectionModal(){
+  //   this.setState({confirmRemoveSubsection: false});
+  // }
+
+  // confirmRemoveSubsection(e, section, subsection){
+  //   return(  
+  //     <Modal show={this.state.confirmRemoveModal} onHide={this.closeSubsectionModal()}>
+  //       <Modal.Header closeButton>
+  //       </Modal.Header>
+  //       <Modal.Body>Are you sure you want to delete this Subsection?</Modal.Body>
+  //       <Modal.Footer>
+  //         <Button variant="danger" onClick={this.confirmShowSubsectionModal}>
+  //           Cancel
+  //         </Button>
+  //         <Button variant="primary" onClick={this.removeSubsection(e,section,subsection)}>
+  //           Remove Subsection
+  //         </Button>
+  //       </Modal.Footer>
+  //     </Modal>
+  //     )
+  // }
 
   getSubsections(sectionKey, sectionValue) {
     let subsections = [];
@@ -236,7 +332,7 @@ class Course extends React.Component {
       if(section in this.props.cartCourses[this.props.courseKey]) {
         if(this.props.cartCourses[this.props.courseKey][section].indexOf(subsection) > -1) {
           buttonVariant = 'outline-dark';
-          buttonOnClick = (e) => this.removeSubsection(e, section, subsection);
+          buttonOnClick = (e) => this.removeSubsection(e,section,subsection);
           buttonText = 'Remove Subsection';
         }
       }
@@ -287,6 +383,7 @@ class Course extends React.Component {
     else
       return this.props.data.credits + ' credits';
   }
+
 }
 
 export default Course;

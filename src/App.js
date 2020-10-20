@@ -4,6 +4,19 @@ import Sidebar from './Sidebar';
 import CourseArea from './CourseArea';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {fas} from '@fortawesome/free-solid-svg-icons';
+import {faSearch, faShoppingCart,faFlagCheckered,faThumbsUp} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
+library.add(fas,faSearch);
+library.add(fas,faShoppingCart);
+library.add(fas,faThumbsUp);
+library.add(fas,faFlagCheckered);
+
+
 
 class App extends React.Component {
   constructor(props) {
@@ -335,7 +348,7 @@ class App extends React.Component {
         />
 
         <Tabs defaultActiveKey="search" style={{position: 'fixed', zIndex: 1, width: '100%', backgroundColor: 'white'}}>
-          <Tab eventKey="search" title="Search" style={{paddingTop: '5vh'}}>
+          <Tab eventKey="search" title="Course Directory" style={{paddingTop: '5vh'}} icon={<FontAwesomeIcon icon={faSearch} size="lg" style={{padding: '3px'}}/>}>
             <Sidebar setCourses={(courses) => this.setCourses(courses)} courses={this.state.allCourses} subjects={this.state.subjects} keywords={this.state.keywords}/>
             <div style={{marginLeft: '20vw'}}>
               <CourseArea data={this.state.filteredCourses} addCartCourse={(data) => this.addCartCourse(data)} removeCartCourse={(data) => this.removeCartCourse(data)} cartCourses={this.state.cartCourses} compMode={false} cartMode={false}/>
