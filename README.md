@@ -1,1 +1,1 @@
-Homework React 2 Beta (3 points total) 
+A course reccommender for UW Madison course created with React.js
